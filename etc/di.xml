@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 ShopGo. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="ShopGo\Skynet\Model\Logger\Handler\Base" type="ShopGo\ShippingCore\Model\Logger\Handler\Base">
+        <arguments>
+            <argument name="logModulePath" xsi:type="string">shipping/skynet/</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShopGo\SkyNet\Model\Logger\Handler\System" type="ShopGo\Skynet\Model\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">system.log</argument>
+            <argument name="loggerType" xsi:type="string">info</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShopGo\SkyNet\Model\Logger\Handler\Debug" type="ShopGo\Skynet\Model\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">debug.log</argument>
+            <argument name="loggerType" xsi:type="string">debug</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShopGo\SkyNet\Model\Logger\Handler\Exception" type="ShopGo\Skynet\Model\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">exception.log</argument>
+            <argument name="loggerType" xsi:type="string">info</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShopGo\SkyNet\Model\Logger\Monolog" type="ShopGo\ShippingCore\Model\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">ShopGo\SkyNet\Model\Logger\Handler\System</item>
+                <item name="debug" xsi:type="object">ShopGo\SkyNet\Model\Logger\Handler\Debug</item>
+                <item name="exception" xsi:type="object">ShopGo\SkyNet\Model\Logger\Handler\Exception</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShopGo\SkyNet\Model\Logger" type="ShopGo\ShippingCore\Model\Logger">
+        <arguments>
+            <argument name="logger" xsi:type="object">ShopGo\SkyNet\Model\Logger\Monolog</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShopGo\SkyNet\Helper\Utility" type="ShopGo\ShippingCore\Helper\Utility">
+        <arguments>
+            <argument name="logger" xsi:type="object">ShopGo\SkyNet\Model\Logger</argument>
+        </arguments>
+    </virtualType>
+    <type name="ShopGo\SkyNet\Helper\Data">
+        <arguments>
+            <argument name="utility" xsi:type="object">ShopGo\SkyNet\Helper\Utility</argument>
+        </arguments>
+    </type>
+</config>
