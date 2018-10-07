@@ -1,6 +1,5 @@
-SkyNet
-======
-
+SkyNet `[UNMAINTAINED]`
+=======================
 
 #### Contents
 *   [Synopsis](#syn)
