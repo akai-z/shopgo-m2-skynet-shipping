@@ -1,0 +1,94 @@
+<?php
+/**
+ * Copyright © 2016 ShopGo. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * @see \ShopGo\SkyNet\Block\Adminhtml\System\Config\Service\RetrieveList
+ */
+?>
+<script>
+require([
+    'jquery',
+    'Magento_Ui/js/modal/alert'
+], function(jQuery, alert) {
+
+//<![CDATA[
+    var configFieldIdPrefix = '#carriers_skynet_';
+    var isModifiedUsername = 0;
+    var isModifiedPassword = 0;
+    var defaultMessage = '<?php echo __(
+        'The triggered action status is unknown!'
+        . ' If the issue persists, please contact the module author.'
+    ) ?>';
+
+    function retrieveServiceList() {
+        var params = {
+            username: jQuery(configFieldIdPrefix + 'username').val(),
+            password: jQuery(configFieldIdPrefix + 'password').val(),
+            station_code: jQuery(configFieldIdPrefix + 'station_code').val(),
+            consignor_account: jQuery(configFieldIdPrefix + 'consignor_account').val(),
+            is_modified_username: isModifiedUsername,
+            is_modified_password: isModifiedPassword,
+            form_key: FORM_KEY
+        };
+
+        jQuery.ajax({
+            url: '<?php /* @escapeNotVerified */ echo $block->getAjaxUrl() ?>',
+            method: 'POST',
+            data: params,
+            dataType: 'json',
+            showLoader: true,
+            success: function(response) {
+                var result = defaultMessage;
+
+                try {
+                    if (response.status) {
+                        result = response.description;
+                        var serviceField = jQuery(configFieldIdPrefix + 'service');
+                        serviceField.empty();
+                        jQuery.each(response.data, function(i, data) {
+                            var option = document.createElement('option');
+                            serviceField.append(
+                                jQuery(option).attr('value', data.value).text(data.label)
+                            );
+                        });
+                    } else if (response.status === 0) {
+                        result = response.description;
+                    }
+                } catch (e) {}
+
+                alert({
+                    content: result
+                });
+            },
+            error: function(response) {
+                alert({
+                    content: defaultMessage
+                });
+            }
+        });
+    }
+
+    jQuery(configFieldIdPrefix + 'username').on('change', function(e) {
+        isModifiedUsername = 1;
+    });
+    jQuery(configFieldIdPrefix + 'password').on('change', function(e) {
+        isModifiedPassword = 1;
+    });
+
+    window.retrieveServiceList = retrieveServiceList;
+//]]>
+
+});
+</script>
+<div class="actions actions-retrieve-service-list">
+    <button onclick="javascript:retrieveServiceList(); return false;" class="action-retrieve-service-list" type="button" id="<?php echo $block->getHtmlId() ?>">
+        <span><?php echo $block->escapeHtml($block->getButtonLabel()) ?></span>
+    </button>
+</div>

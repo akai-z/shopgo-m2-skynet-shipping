@@ -1,0 +1,38 @@
+<?php
+/**
+ * Copyright © 2016 ShopGo. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * @see \ShopGo\SkyNet\Block\Adminhtml\Shipping\Additional\Form\Shipment
+ */
+?>
+<?php $formData = $block->getData('form_data') ?>
+<div class="admin__page-section-title">
+    <span class="title">
+        <?php /* @escapeNotVerified */ echo __('SkyNet Shipment Form') ?>
+    </span>
+</div>
+<div class="admin__control-table-wrapper admin__page-subsection">
+    <table class="data-table admin__control-table">
+        <tbody>
+        <tr>
+            <td class="label"><?php /* @escapeNotVerified */ echo __('Type of Shipment') ?></td>
+            <td class="field">
+                <select id="skynet_shipment_type" name="shipment[shopgo][skynet][shipment_type]" class="skynet-shipment-type admin__control-select required-entry">
+                    <?php foreach ($formData['shipment_types'] as $type): ?>
+                        <option value="<?php /* @escapeNotVerified */ echo $type['value'] ?>">
+                            <?php /* @escapeNotVerified */ echo $type['label'] ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
