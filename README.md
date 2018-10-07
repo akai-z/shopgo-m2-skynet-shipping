@@ -1,6 +1,8 @@
 SkyNet `[UNMAINTAINED]`
 =======================
 
+## `This module is incomplete, as it was still under development.`
+
 #### Contents
 *   [Synopsis](#syn)
 *   [Overview](#over)
